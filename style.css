@@ -29,7 +29,7 @@ body {
     background: none;
 }
 .cart-button:focus, .cart-button:active {
-    border: 0;
+    outline: none;
 }
 
 .logo {
@@ -38,12 +38,14 @@ body {
 }
 .goods-list {
     display: flex;
+    flex-wrap: wrap;
     justify-content: space-between;
 }
 .goods-item {
     width: 250px;
     height: auto;
     border: 1px solid silver;
+    margin-bottom: 50px;
     display: flex;
     flex-direction: column;
     box-shadow:1px 2px 8px 1px rgba(0,0,0,0.24);
@@ -62,4 +64,17 @@ body {
 .goods-item p {
     padding: 15px 0;
     text-align: center;
+}
+.goods-item button {
+    width: 50%;
+    border-radius: 10px;
+    margin: 0 auto 15px;
+    padding: 10px 0;
+}
+.goods-item button:focus {
+    border-radius: 10px;
+    outline: none;
+}
+.goods-item button:focus-visible {
+    border-radius: 10px;
 }
