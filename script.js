@@ -20,24 +20,34 @@
 //     document.querySelector('.goods-list').innerHTML = goodsList.join('');
 // };
 
+function makeGETRequest(url, callback) {
+    return new Promise((resolve, reject) => {
+        // console.log('Работает промис');
+        let xhr = window.XMLHttpRequest ? new window.XMLHttpRequest() : new window.ActiveXObject;
+        xhr.open("GET", url, true);
+        xhr.onload = () => resolve(callback(xhr.responseText));
+        xhr.onerror = () => reject(xhr.statusText);
+        xhr.send();
+      });
+  }
+
+const API_URL = 'https://raw.githubusercontent.com/GeekBrainsTutorial/online-store-api/master/responses';
+
 class GoodsList {
 
     constructor() {
-        this.goods = [
-            { title: 'Shirt', price: 150 },
-            { title: 'Socks', price: 50 },
-            { title: 'Jacket', price: 350 },
-            { title: 'Shoes', price: 250 }, 
-            { title: 'Jacket', price: 350 },
-            { title: 'Shoes', price: 250 }, 
-            { title: 'Jacket', price: 350 },
-            { title: 'Shoes', price: 250 }, 
-            { title: 'Shoes', price: 250 }, 
-        ];
+        this.goods = [];
+    }
+
+    fetchGoods() {
+        makeGETRequest(`${API_URL}/catalogData.json`, (good) => {
+            this.goods = JSON.parse(good);
+            console.log(this.goods);
+        })
     }
 
     render() {
-        let goodsList = this.goods.map(item => new GoodsItem(item.title, item.price).render());
+        let goodsList = this.goods.map(item => new GoodsItem(item.product_name, item.price).render());
 
         document.querySelector('#goods-list').innerHTML = goodsList.join('');
     }
@@ -72,6 +82,7 @@ class GoodsItem {
 }
 
 let goodsList = new GoodsList();
+goodsList.fetchGoods();
 
 
 window.onload = () => {
@@ -81,10 +92,26 @@ window.onload = () => {
 };
 
 class Cart {
-    constructor() {}
+    constructor() {
+        this.cartGoods = [];
+    }
 
     //Добавление элемента в корзину
-    addToCart() {}
+    addToCart(id) {
+        let toCart;
+
+        list.goods.forEach(function(item) {
+            if (id = item.id) {
+                toCart = {
+                    id: item.id,
+                    title: item.title,
+                    price: item.price,
+                }
+            }
+        });
+        this.cartGoods.push(toCart);
+
+    }
 
     //Соответсвенно, удаление элемента
     removeFromCart () {}
@@ -103,5 +130,12 @@ class Cart {
 
 class CartItem extends GoodsItem {
     //возмем оттуда конструктор, но рендер свой
-    render() {}
+    render() {
+        return `<div class="cart-item">
+        <h3>${this.title}</h3>
+        <img src="no-image.jpg" alt="no image">
+        <p>${this.price}</p>
+        <button id="remove-from-cart" onclick="removeFromCart(${this.id})">&times;</button>
+    </div>`;
+    }
 }
