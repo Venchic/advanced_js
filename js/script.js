@@ -74,7 +74,7 @@ class GoodsItem {
     render() {
         return `<div class="goods-item">
         <h3>${this.title}</h3>
-        <img src="no-image.jpg" alt="no image">
+        <img src="../no-image.jpg" alt="no image">
         <p>${this.price}</p>
         <button id="add-to-cart" onclick="addToCart()">В корзину</button>
     </div>`;
@@ -133,7 +133,7 @@ class CartItem extends GoodsItem {
     render() {
         return `<div class="cart-item">
         <h3>${this.title}</h3>
-        <img src="no-image.jpg" alt="no image">
+        <img src="../no-image.jpg" alt="no image">
         <p>${this.price}</p>
         <button id="remove-from-cart" onclick="removeFromCart(${this.id})">&times;</button>
     </div>`;

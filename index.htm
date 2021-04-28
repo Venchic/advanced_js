@@ -1,28 +1,60 @@
 <!DOCTYPE html>
-<html>
+<html lang="ru">
 <head>
-  <title>eShop</title>
-  <script src="script.js"></script>
-  <link rel="stylesheet" href="style.css">
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+    <title>eShop</title>
+
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
 </head>
 <body>
-  <header class="site-header">
-      <div class="container site-header__wrapper">
-        <a href="#" class="logo"><i class="fa fa-home" aria-hidden="true"></i></a>
-        <button class="cart-button" type="button"><i class="fa fa-shopping-cart" aria-hidden="true"></i></button>
-      </div>
-  </header>
-  <main class="site-main">
-      <div class="container">
-        <div class="goods-list" id="goods-list">
-            
+<div id="app">
+    <transition name="fade">
+        <div class="search-box" v-if="isSearchBoxVisible">
+            <div class="container">
+                <input type="search" class="goods-search" name="search" v-model="searchLine">
+                <button class="goods-search-button" type="button" @click="filterGoods">&#128269;</button>
+            </div>
         </div>
-        <div id="total-goods"></div>
-      </div>
-  </main>
-  <footer class="site-footer">
+    </transition>
+    <header class="site-header">
+        <div class="container">
+            <div class="site-header__wrapper">
+                <a href="#" class="logo"><i class="fa fa-home" aria-hidden="true"></i></a>
+                <div class="right">
+                    <button class="search-button" type="button" @click="toggleSearchBox"
+                            v-bind:key="isSearchBoxVisible">
+                        {{ !isSearchBoxVisible ? '&#128269;' : '&#128473;' }}
+                    </button>
+                    <button class="cart-button" @click="toggleCart" :key="isVisibleCart">
+                        {{ !isVisibleCart ? '&#128465;' : '&#128473;'}}
+                    </button>
+                </div>
+            </div>
+            <transition name="slide-fade">
+                <div class="cart" v-if="isVisibleCart">
+                    <h2>Корзина</h2>
+                </div>
+            </transition>
+        </div>
+    </header>
+    <main class="site-main">
+        <div class="container">
+<!--            <div class="goods-list" id="goods-list">-->
+<!--                <div class="goods-item" v-for="(good, index) in filteredGoods">-->
+<!--                    <h3>{{ !good.product_name ? 'Нет данных' : good.product_name }}</h3>-->
+<!--                    <p>{{ !good.price ? 'Нет данных' : good.price }}</p>-->
+<!--                    <button @click="addToCart(index)">Добавить в корзину</button>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--            <div id="total-goods"></div>-->
+            <goods-list :goods="filteredGoods">
 
-  </footer>
+            </goods-list>
+        </div>
+    </main>
+    <footer></footer>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/vue@2.5.17/dist/vue.js"></script>
+<script src="js/main.js"></script>
 </body>
 </html>
